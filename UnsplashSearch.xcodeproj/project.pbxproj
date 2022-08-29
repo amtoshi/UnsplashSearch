@@ -19,6 +19,7 @@
 		313220C928B96BA700356317 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 313220C728B96BA700356317 /* Main.storyboard */; };
 		313220CC28B96BE000356317 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220CA28B96BE000356317 /* SceneDelegate.swift */; };
 		313220CD28B96BE000356317 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220CB28B96BE000356317 /* AppDelegate.swift */; };
+		313220D528BA758100356317 /* AutolayoutHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220D428BA758100356317 /* AutolayoutHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		313220C728B96BA700356317 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		313220CA28B96BE000356317 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		313220CB28B96BE000356317 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		313220D428BA758100356317 /* AutolayoutHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutolayoutHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 		313220B528B96B1D00356317 /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
+				313220D428BA758100356317 /* AutolayoutHelpers.swift */,
 				313220B628B96B1D00356317 /* Network.swift */,
 			);
 			path = Handlers;
@@ -188,6 +191,7 @@
 				313220BA28B96B1D00356317 /* Model.swift in Sources */,
 				313220C528B96B9000356317 /* PhotosCollectionViewController.swift in Sources */,
 				313220B928B96B1D00356317 /* Network.swift in Sources */,
+				313220D528BA758100356317 /* AutolayoutHelpers.swift in Sources */,
 				313220BF28B96B4900356317 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

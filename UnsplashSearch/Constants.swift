@@ -11,3 +11,12 @@ import UIKit
 struct API{
     
 }
+
+struct Design{
+    struct color{
+        
+    }
+    struct fonts{
+        
+    }
+}

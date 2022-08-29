@@ -11,7 +11,7 @@
         <!--Cities-->
         <scene sceneID="ALN-ns-W1h">
             <objects>
-                <collectionViewController id="lYK-Zf-DnG" userLabel="Cities" customClass="PhotosCollectionViewController" customModule="imageTestConcurrency" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="lYK-Zf-DnG" userLabel="Cities" customClass="PhotosCollectionViewController" customModule="UnsplashSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="TvC-We-2q0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,7 +23,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotosCollectionViewCell" id="mnn-bJ-yQ5" customClass="PhotosCollectionViewCell" customModule="imageTestConcurrency" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotosCollectionViewCell" id="mnn-bJ-yQ5" customClass="PhotosCollectionViewCell" customModule="UnsplashSearch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="V4b-dv-dAy">
