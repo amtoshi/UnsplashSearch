@@ -20,6 +20,7 @@
 		313220CC28B96BE000356317 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220CA28B96BE000356317 /* SceneDelegate.swift */; };
 		313220CD28B96BE000356317 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220CB28B96BE000356317 /* AppDelegate.swift */; };
 		313220D528BA758100356317 /* AutolayoutHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220D428BA758100356317 /* AutolayoutHelpers.swift */; };
+		313220D728BEED7700356317 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313220D628BEED7700356317 /* Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		313220CA28B96BE000356317 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		313220CB28B96BE000356317 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		313220D428BA758100356317 /* AutolayoutHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutolayoutHelpers.swift; sourceTree = "<group>"; };
+		313220D628BEED7700356317 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 			children = (
 				313220D428BA758100356317 /* AutolayoutHelpers.swift */,
 				313220B628B96B1D00356317 /* Network.swift */,
+				313220D628BEED7700356317 /* Error.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				313220D728BEED7700356317 /* Error.swift in Sources */,
 				313220CD28B96BE000356317 /* AppDelegate.swift in Sources */,
 				313220CC28B96BE000356317 /* SceneDelegate.swift in Sources */,
 				313220BA28B96B1D00356317 /* Model.swift in Sources */,
