@@ -38,4 +38,20 @@ extension UIView {
             view.trailingAnchor.constraint(equalTo: trailingAnchor)
         ]
     }
+    
+    #warning("check why this wouldnt affect the UIView")
+    func addShadow(){
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 10
+        self.layer.shadowOpacity = 1
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shadowOffset = CGSize(width: 1, height: 2)
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+        
+        
+        
+        
+    }
 }
+

@@ -8,8 +8,9 @@
 import Foundation
 
 
-enum APIError:Error{
+enum AppError:Error{
     case generic
     case decodingError
     case badStatus
+    case AssetError
 }

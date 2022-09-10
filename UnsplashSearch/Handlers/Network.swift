@@ -11,6 +11,7 @@ protocol APIResource{
     associatedtype ModelType:Decodable
     var searchTerm:String?{ get }
     var path:String{ get }
+    var page:Int?{get}
 }
 
 extension APIResource{
@@ -23,11 +24,16 @@ extension APIResource{
         components.scheme = "https"
         components.host = "api.unsplash.com"
         components.path=path
-        components.queryItems = [URLQueryItem(name: "client_id", value:                "1l_6Ii8HHJk8jNGMJyL7AjqLCidwY9DkXojXwBJaqA8"),
+        var queryItems:[URLQueryItem] = [URLQueryItem(name: "client_id", value:                "1l_6Ii8HHJk8jNGMJyL7AjqLCidwY9DkXojXwBJaqA8"),
                                  URLQueryItem(name: "query", value: searchTerm),
-                                 URLQueryItem(name: "per_page", value: "30")]
+                                 URLQueryItem(name: "per_page", value: "30"),
+                                 URLQueryItem(name: "orientation", value: "portrait")]
+        guard let page = page else{
+            components.queryItems = queryItems
+            return (components.url)!
+        }
         
-        
+        queryItems.append(URLQueryItem(name: "page", value: String(page)))
         return (components.url)!
         
     }
@@ -37,9 +43,9 @@ extension APIResource{
 
 protocol NetworkRequest: AnyObject {
     
-    associatedtype ModelType
-    func decode(_ data: Data) throws -> [ModelType]?
-    func execute(withCompletion completion: @escaping (Result<([ModelType]?),Error>) -> Void)
+    associatedtype ModelType:Decodable
+    func decode(_ data: Data) throws -> Wrapper<ModelType>?
+    func execute(withCompletion completion: @escaping (Result<(Wrapper<ModelType>?),Error>) -> Void)
     
     func cancelTask()
     
@@ -53,7 +59,7 @@ extension NetworkRequest{
     
     }
     
-    func loadTask(_ url: URL, withCompletion completion: @escaping (Result<([ModelType]?),Error>) -> Void)-> URLSessionDataTask{
+    func loadTask(_ url: URL, withCompletion completion: @escaping (Result<(Wrapper<ModelType>?),Error>) -> Void)-> URLSessionDataTask{
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error ) -> Void in
 
             let response = response as! HTTPURLResponse
@@ -90,6 +96,8 @@ extension NetworkRequest{
 
 
 struct ImageSearchResource:APIResource{
+    var page: Int?
+    
     var searchTerm: String?
     
     var path: String = "/search/photos"
@@ -98,6 +106,7 @@ struct ImageSearchResource:APIResource{
     
     init(with searchTerm: String){
         self.searchTerm = searchTerm
+       
     }
     
     
@@ -126,7 +135,7 @@ extension ImageSearchRequest:NetworkRequest{
             return
             
         }
-        print("stat says\(task.state)")
+        print("stat cancelled\(task.state)")
         task.cancel()
         
     }
@@ -134,11 +143,11 @@ extension ImageSearchRequest:NetworkRequest{
     
     typealias ModelType = Resource.ModelType
     
-    func decode(_ data: Data) throws -> [Resource.ModelType]? {
+    func decode(_ data: Data) throws -> Wrapper<Resource.ModelType>? {
         let decoder = JSONDecoder()
         do{
             let wrapper = try decoder.decode(Wrapper<Resource.ModelType>.self, from: data)
-            return wrapper.results
+            return wrapper
         }
         catch {
             throw error
@@ -148,7 +157,7 @@ extension ImageSearchRequest:NetworkRequest{
         
     }
     
-    func execute(withCompletion completion: @escaping (Result<([Resource.ModelType]?), Error>) -> Void) {
+    func execute(withCompletion completion: @escaping (Result<(Wrapper<ModelType>?), Error>) -> Void) {
         self.task =  loadTask(resource.url, withCompletion: completion)
         task?.resume()
     }

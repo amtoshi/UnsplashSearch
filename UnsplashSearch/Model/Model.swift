@@ -112,7 +112,6 @@ struct Image:Decodable{
         do{
             
             let imageContainer = try decoder.container(keyedBy: ImageKeys.self)
-            let usercontainer = try imageContainer.nestedContainer(keyedBy: PhotographerKeys.self, forKey: .user)
             self.description = try imageContainer.decodeIfPresent(String.self, forKey: .description)
             self.photographer = try imageContainer.decode(Person.self, forKey: .user)
             self.imageURL = try imageContainer.decode(ImageURL.self, forKey: .urls)
@@ -121,7 +120,7 @@ struct Image:Decodable{
         }
         
         catch {
-            throw APIError.decodingError
+            throw AppError.decodingError
         }
         
         
@@ -131,7 +130,34 @@ struct Image:Decodable{
 
 
 struct Wrapper<T:Decodable>:Decodable{
-    let results:[T]
+    var searchTerm:String?
+    var totalPages:Int
+    var results:[T]
+    
+    enum Wrapperkeys:String, CodingKey{
+        case totalPages = "total_pages"
+        case results
+    }
+    
+    init(from decoder: Decoder) throws {
+        do {
+            let wrapperContainer = try decoder.container(keyedBy: Wrapperkeys.self)
+            self.results = try wrapperContainer.decode([T].self, forKey: .results)
+            self.totalPages = try wrapperContainer.decode(Int.self, forKey: .totalPages)
+            self.searchTerm = nil
+            
+        }
+        catch{
+            throw AppError.decodingError
+        }
+        
+    }
+    
+    init(){
+        self.searchTerm=nil
+        self.totalPages=0
+        self.results = []
+    }
     
     
     
