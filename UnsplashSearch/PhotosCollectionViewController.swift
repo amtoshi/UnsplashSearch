@@ -145,7 +145,7 @@ class PhotosCollectionViewController: UIViewController {
     }
     
    
-    
+//MARK: View did load
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -333,6 +333,11 @@ extension PhotosCollectionViewController: UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "PhotoDetail")
+        vc.modalPresentationStyle  = .fullScreen
+        present(vc, animated: true)
+        
         
     }
 
