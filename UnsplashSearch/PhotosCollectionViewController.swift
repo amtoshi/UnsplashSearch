@@ -11,6 +11,8 @@ import UIKit
 
 class PhotosCollectionViewController: UIViewController {
     
+ 
+    
     private var currentKeyword:String? {
         didSet{
             model.searchTerm = currentKeyword
@@ -289,11 +291,10 @@ extension PhotosCollectionViewController:UISearchBarDelegate{
     }
 
 }
-
+//MARK: CollectionView Delegate & DataSource
 extension PhotosCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource{
 
 
-    // MARK: UICollectionViewDataSoure
     
    func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -333,14 +334,18 @@ extension PhotosCollectionViewController: UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let image = model.results[indexPath.row]
+        print("in collection view\(image.likes)")
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc = storyboard.instantiateViewController(withIdentifier: "PhotoDetail")
-        vc.modalPresentationStyle  = .fullScreen
-        present(vc, animated: true)
+        let detailViewController = storyboard.instantiateViewController(identifier: "PhotoDetail") { coder in
+            let detailViewController = PhotoDetailViewController(coder: coder, with: image)
+            return detailViewController
+        }
+        detailViewController.modalPresentationStyle  = .fullScreen
+        present(detailViewController, animated: true)
         
         
     }
 
 }
-
 

@@ -8,43 +8,50 @@
 import UIKit
 
 class PhotoDetailViewController: UIViewController {
-
+    
+    @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var imageView: UIImageView!
+    private var model:Image?{
+        didSet{
+            print("did set called")
+            print(model?.likes)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .cyan
-        view.addSubview(imageView)
-        setupConstraints()
+        setupViewData()
+        setupButton()
         // Do any additional setup after loading the view.
     }
     
+    //MARK: init
     
-    @usesAutoLayout var imageView:UIImageView = {
+    init?(coder:NSCoder, with image:Image){
+        super.init(coder: coder)
+        self.model = image
         
-        let view = UIImageView()
-        view.contentMode = .scaleToFill
-        view.image = UIImage(named: "imagetest")
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func setupViewData(){
+        //setup image
         
-        return view
-    }()
-    
-    @usesAutoLayout var imageTitle
-    
-    
-    private func setupConstraints(){
-        NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: view.topAnchor),
-                                     imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                                     imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.57),
-                                     imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
+        imageView.image = UIImage(named: "imagetest")
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func setupButton(){
+        dismissButton.setImage(Design.Images.cancelIcon, for: .normal)
+        dismissButton.addTarget(self, action: #selector(dismissDetailViewController), for: .touchUpInside)
+        dismissButton.addShadow()
     }
-    */
-
+    
+    @objc func dismissDetailViewController(){
+        print("clicked")
+    }
+    
 }

@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -104,19 +105,83 @@
                     <view key="view" contentMode="scaleToFill" id="M0e-pb-cFA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zci-aY-F1p">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="627"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="H2a-HI-knO">
+                                <rect key="frame" x="30" y="636" width="354" height="57.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vlG-rM-tiX">
+                                        <rect key="frame" x="0.0" y="0.0" width="169.5" height="57.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpy-LV-vEP">
+                                                <rect key="frame" x="0.0" y="0.0" width="57.5" height="37"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhM-DT-YRT">
+                                                <rect key="frame" x="0.0" y="37" width="62" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0hn-5N-tiI">
+                                        <rect key="frame" x="184.5" y="0.0" width="169.5" height="57.5"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gEu-Zz-EdE">
+                                                <rect key="frame" x="0.0" y="1" width="56.5" height="54.5"/>
+                                                <imageReference key="image" image="square.and.arrow.up.fill" catalog="system" symbolScale="small"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9bv-OZ-ZUQ">
+                                                <rect key="frame" x="56.5" y="1" width="56.5" height="54.5"/>
+                                                <imageReference key="image" image="square.and.arrow.up.fill" catalog="system" symbolScale="small"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lTl-dM-5jG">
+                                                <rect key="frame" x="113" y="1" width="56.5" height="54.5"/>
+                                                <imageReference key="image" image="square.and.arrow.up.fill" catalog="system" symbolScale="small"/>
+                                            </imageView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0dd-x9-Fbi">
+                                <rect key="frame" x="380" y="88" width="24" height="14"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=""/>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Jb0-g3-ETf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="H2a-HI-knO" firstAttribute="leading" secondItem="Jb0-g3-ETf" secondAttribute="leading" constant="30" id="7Ih-df-ibo"/>
+                            <constraint firstItem="Zci-aY-F1p" firstAttribute="leading" secondItem="Jb0-g3-ETf" secondAttribute="leading" id="8aB-aA-f6E"/>
+                            <constraint firstItem="H2a-HI-knO" firstAttribute="centerX" secondItem="Jb0-g3-ETf" secondAttribute="centerX" id="GR9-xe-2fL"/>
+                            <constraint firstItem="0dd-x9-Fbi" firstAttribute="top" secondItem="Jb0-g3-ETf" secondAttribute="top" id="TAu-e3-XwN"/>
+                            <constraint firstItem="H2a-HI-knO" firstAttribute="top" secondItem="Zci-aY-F1p" secondAttribute="bottom" constant="9" id="XHL-tW-Zej"/>
+                            <constraint firstItem="Jb0-g3-ETf" firstAttribute="trailing" secondItem="0dd-x9-Fbi" secondAttribute="trailing" constant="10" id="l1e-Hx-kua"/>
+                            <constraint firstItem="Jb0-g3-ETf" firstAttribute="trailing" secondItem="Zci-aY-F1p" secondAttribute="trailing" id="omS-6s-d84"/>
+                            <constraint firstItem="Jb0-g3-ETf" firstAttribute="top" secondItem="Zci-aY-F1p" secondAttribute="top" constant="88" id="sB1-id-UOk"/>
+                            <constraint firstItem="Zci-aY-F1p" firstAttribute="height" secondItem="M0e-pb-cFA" secondAttribute="height" multiplier="0.7" id="xba-SC-NBc"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="leM-PF-MG7"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="dismissButton" destination="0dd-x9-Fbi" id="Llg-Kv-2F5"/>
+                        <outlet property="imageView" destination="Zci-aY-F1p" id="dlU-aW-1qv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="miM-bL-hbx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1045" y="-532"/>
+            <point key="canvasLocation" x="1105.7971014492755" y="-520.3125"/>
         </scene>
     </scenes>
     <resources>
         <image name="heart.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
