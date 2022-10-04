@@ -120,13 +120,21 @@ class ImageSearchResource:APIResource{
         self.page! = tempPage! + 1
         print("page value found and changed")
     }
+    
+    func previousPage() {
+        let tempPage = page
+        if tempPage != 1{
+            self.page! = tempPage! - 1
+            print("page value found and changed")
+        }
+       
+    }
 }
 
 
 class ImageSearchRequest<Resource:APIResource>{
     
     var resource: Resource
-    
     var task : URLSessionDataTask?
     
     init(for resource: Resource) {

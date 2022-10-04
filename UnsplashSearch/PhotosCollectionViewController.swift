@@ -153,6 +153,24 @@ class PhotosCollectionViewController: UIViewController {
     
     @objc func previousClicked(){
         print("clicked2")
+        guard let resource  = searchResource, let request = searchRequest else {
+             return
+        }
+        resource.previousPage()
+        print(resource.page!)
+        request.resource = resource
+            request.execute { result in
+                switch result{
+                    case .success(let imageWrapper):
+                        guard let imageWrapper = imageWrapper  else{
+                            return
+                        }
+                        self.model = imageWrapper
+                    case .failure(let error):
+                        print(error)
+
+                }
+            }
         
     }
     
