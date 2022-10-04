@@ -13,14 +13,10 @@ class PhotosCollectionViewController: UIViewController {
     
  
     
-    private var currentKeyword:String? {
-        didSet{
-            model.searchTerm = currentKeyword
-        }
-    }
+    private var currentKeyword:String?
     private var currentPage:Int = 1 {
       didSet{
-          if (currentPage != 0), self.model.totalPages == 1{
+          if self.model.totalPages == 1{
               self.previousButton.isHidden = true
               self.previousButton.isHidden = true
           }
@@ -38,8 +34,10 @@ class PhotosCollectionViewController: UIViewController {
     
     var model:Wrapper<Image> = Wrapper(){
         didSet{
-            print("model changed")
-            print(model.totalPages)
+             
+            for result in model.results{
+                print("likes in these images\(result.likes)")
+            }
             collectionView.reloadData()
         }
     }
@@ -73,9 +71,7 @@ class PhotosCollectionViewController: UIViewController {
     
     @usesAutoLayout var searchButton:UIButton = {
         let view = UIButton()
-       
         view.setImage(Design.Images.searchIcon, for: .normal)
-        
         view.addTarget(self, action: #selector(searchClicked), for: .touchUpInside)
         view.addShadow()
         return view
@@ -131,15 +127,29 @@ class PhotosCollectionViewController: UIViewController {
     
     @objc func nextClicked(){
         print("clicked1")
-        
-        if model.results.isEmpty != true{
-            currentPage+=currentPage
-            searchResource?.page = currentPage
-            
+        guard let resource  = searchResource, let request = searchRequest else {
+             return
+        }
+        resource.nextPage()
+        print(resource.page!)
+        request.resource = resource
+            request.execute { result in
+                switch result{
+                    case .success(let imageWrapper):
+                        guard let imageWrapper = imageWrapper  else{
+                            return
+                        }
+                        self.model = imageWrapper
+                    case .failure(let error):
+                        print(error)
+
+                }
+            }
+
         }
        
         
-    }
+    
     
     @objc func previousClicked(){
         print("clicked2")
@@ -271,17 +281,17 @@ extension PhotosCollectionViewController:UISearchBarDelegate{
         
         currentKeyword = keyword
         
-        self.searchResource = ImageSearchResource(with: keyword)
+        self.searchResource = ImageSearchResource(with: keyword, onPage: nil)
         print(keyword)
         self.searchRequest = ImageSearchRequest<ImageSearchResource>( for: searchResource!)
         searchRequest!.execute { result in
             switch result{
                 case .success(let imageWrapper):
-                    guard let imageWrapper = imageWrapper  else{
+                    guard var imageWrapper = imageWrapper  else{
                         return
                     }
+                    imageWrapper.searchTerm = keyword
                     self.model = imageWrapper
-//                    self.model.searchTerm = keyword
                 case .failure(let error):
                     print(error)
                     
@@ -335,10 +345,9 @@ extension PhotosCollectionViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = model.results[indexPath.row]
-        print("in collection view\(image.likes)")
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let detailViewController = storyboard.instantiateViewController(identifier: "PhotoDetail") { coder in
-            let detailViewController = PhotoDetailViewController(coder: coder, with: image)
+            let detailViewController = PhotoDetailViewController(coder: coder, with: image, title: self.model.searchTerm!)
             return detailViewController
         }
         detailViewController.modalPresentationStyle  = .fullScreen

@@ -19,7 +19,7 @@ extension APIResource{
     
     
     //Authorization: Client-ID YOUR_ACCESS_KEY
-    var url:URL{
+    var url:URL?{
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.unsplash.com"
@@ -27,14 +27,13 @@ extension APIResource{
         var queryItems:[URLQueryItem] = [URLQueryItem(name: "client_id", value:                "1l_6Ii8HHJk8jNGMJyL7AjqLCidwY9DkXojXwBJaqA8"),
                                  URLQueryItem(name: "query", value: searchTerm),
                                  URLQueryItem(name: "per_page", value: "30"),
-                                 URLQueryItem(name: "orientation", value: "portrait")]
-        guard let page = page else{
-            components.queryItems = queryItems
-            return (components.url)!
+                                         URLQueryItem(name: "orientation", value: "portrait"), URLQueryItem(name: "page", value: String(page!))]
+        components.queryItems = queryItems
+       
+       guard let url = components.url else {
+            return nil
         }
-        
-        queryItems.append(URLQueryItem(name: "page", value: String(page)))
-        return (components.url)!
+        return url
         
     }
     
@@ -64,16 +63,17 @@ extension NetworkRequest{
 
             let response = response as! HTTPURLResponse
             guard let data = data, response.statusCode == 200 else {
-               return
+                
                 DispatchQueue.main.async {
                     completion(.failure(error!))
                 }
+                return
             }
             do {
                 
                     let ImageData = try self?.decode(data)
                     DispatchQueue.main.async {
-                        completion(.success(ImageData))
+                         completion(.success(ImageData))
                     }
                
             }
@@ -95,7 +95,7 @@ extension NetworkRequest{
 
 
 
-struct ImageSearchResource:APIResource{
+class ImageSearchResource:APIResource{
     var page: Int?
     
     var searchTerm: String?
@@ -104,18 +104,28 @@ struct ImageSearchResource:APIResource{
     
     typealias ModelType = Image
     
-    init(with searchTerm: String){
+    init(with searchTerm: String, onPage page:Int?){
         self.searchTerm = searchTerm
+        guard let page = page else {
+            self.page = 1
+            return
+        }
+        self.page = page
+        
        
     }
     
-    
+    func nextPage() {
+        let tempPage = page
+        self.page! = tempPage! + 1
+        print("page value found and changed")
+    }
 }
 
 
 class ImageSearchRequest<Resource:APIResource>{
     
-    let resource: Resource
+    var resource: Resource
     
     var task : URLSessionDataTask?
     
@@ -158,7 +168,7 @@ extension ImageSearchRequest:NetworkRequest{
     }
     
     func execute(withCompletion completion: @escaping (Result<(Wrapper<ModelType>?), Error>) -> Void) {
-        self.task =  loadTask(resource.url, withCompletion: completion)
+        self.task =  loadTask(resource.url!, withCompletion: completion)
         task?.resume()
     }
     

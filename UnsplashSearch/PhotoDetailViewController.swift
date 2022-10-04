@@ -9,14 +9,17 @@ import UIKit
 
 class PhotoDetailViewController: UIViewController {
     
+    //MARK: Custom queue
+        let concurrentCustomQueue = DispatchQueue(label: "ConcurrentCustomQueue1", qos: .userInteractive, attributes: .concurrent)
+    
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
-    private var model:Image?{
-        didSet{
-            print("did set called")
-            print(model?.likes)
-        }
-    }
+    @IBOutlet weak var photographerLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    
+    private var model:Image?
+    private var titleLabelString:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +30,10 @@ class PhotoDetailViewController: UIViewController {
     
     //MARK: init
     
-    init?(coder:NSCoder, with image:Image){
+    init?(coder:NSCoder, with image:Image, title:String ){
         super.init(coder: coder)
         self.model = image
-        
+        self.titleLabelString = title
     }
     
     required init?(coder: NSCoder) {
@@ -39,19 +42,40 @@ class PhotoDetailViewController: UIViewController {
     
     
     func setupViewData(){
-        //setup image
         
-        imageView.image = UIImage(named: "imagetest")
+    
+        guard let model = model else {return}
+        //setup image
+        concurrentCustomQueue.async {
+            guard let imageURL = URL(string: self.model!.imageURL.regular)
+            else{
+               print("imageURL issue")
+               return
+           }
+            if let imageData = try? Data.init(contentsOf: imageURL),
+                let image = UIImage(data: imageData) {
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            }
+        }
+        
+        self.titleLabel.text = titleLabelString
+        self.photographerLabel.text = "by \(model.photographer.username)"
+ 
     }
     
     func setupButton(){
-        dismissButton.setImage(Design.Images.cancelIcon, for: .normal)
+        dismissButton.setImage(Design.Images.cancelIconSmall, for: .normal)
         dismissButton.addTarget(self, action: #selector(dismissDetailViewController), for: .touchUpInside)
         dismissButton.addShadow()
     }
     
     @objc func dismissDetailViewController(){
         print("clicked")
+        dismiss(animated: true) {
+            print("print")
+        }
     }
     
 }

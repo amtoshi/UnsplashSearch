@@ -115,8 +115,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vlG-rM-tiX">
                                         <rect key="frame" x="0.0" y="0.0" width="169.5" height="57.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpy-LV-vEP">
-                                                <rect key="frame" x="0.0" y="0.0" width="57.5" height="37"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="titleLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpy-LV-vEP">
+                                                <rect key="frame" x="0.0" y="0.0" width="122.5" height="37"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -172,6 +172,8 @@
                     <connections>
                         <outlet property="dismissButton" destination="0dd-x9-Fbi" id="Llg-Kv-2F5"/>
                         <outlet property="imageView" destination="Zci-aY-F1p" id="dlU-aW-1qv"/>
+                        <outlet property="photographerLabel" destination="vhM-DT-YRT" id="bWF-Wz-zqt"/>
+                        <outlet property="titleLabel" destination="cpy-LV-vEP" id="2RG-4I-bfQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="miM-bL-hbx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

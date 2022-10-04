@@ -22,6 +22,7 @@ struct Design{
         static var previousIcon:UIImage = UIImage(systemName: "arrow.backward.circle.fill", withConfiguration: smallConfig)!
         static var searchIcon:UIImage = UIImage(systemName: "magnifyingglass.circle.fill", withConfiguration: largeConfig)!
         static var cancelIcon:UIImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: largeConfig)!
+        static var cancelIconSmall:UIImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: smallConfig)!
         static var likeIcon:UIImage = UIImage(systemName: "heart.circle.fill", withConfiguration: largeConfig)!
          
 
