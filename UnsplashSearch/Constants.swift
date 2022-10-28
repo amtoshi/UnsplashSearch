@@ -14,17 +14,21 @@ struct API{
 
 struct Design{
     struct Images{
-        static let largeConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .large)
-        static let smallConfig = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .medium)
-        
+        static let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .medium)
+        static let smallConfig = UIImage.SymbolConfiguration(pointSize: 32, weight: .bold, scale: .medium)
+        static let microConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .medium)
         static let nextIcon:UIImage = UIImage(systemName: "arrow.right.circle.fill", withConfiguration: smallConfig)!
     
         static var previousIcon:UIImage = UIImage(systemName: "arrow.backward.circle.fill", withConfiguration: smallConfig)!
         static var searchIcon:UIImage = UIImage(systemName: "magnifyingglass.circle.fill", withConfiguration: largeConfig)!
         static var cancelIcon:UIImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: largeConfig)!
+        static var collectionIcon:UIImage = UIImage(systemName: "rectangle.3.group.fill", withConfiguration: smallConfig)!
+        
         static var cancelIconSmall:UIImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: smallConfig)!
         static var likeIcon:UIImage = UIImage(systemName: "heart.circle.fill", withConfiguration: largeConfig)!
-         
+        static var largeGridLayoutIcon:UIImage = UIImage(systemName: "rectangle.grid.2x2", withConfiguration: microConfig)!
+        static var smallGridLayoutIcon:UIImage = UIImage(systemName: "rectangle.grid.3x2", withConfiguration: microConfig)!
+        static var cardLayoutIcon:UIImage = UIImage(systemName: "rectangle.grid.1x2", withConfiguration: microConfig)!
 
     }
     struct Fonts{
@@ -40,39 +44,11 @@ struct Design{
         
        
     }
+    
+    struct Color{
+        static let jetGrey:UIColor = UIColor(withHexCode: "31393C", alpha: 1)
+        static let crayolaBlue:UIColor = UIColor(withHexCode: "3772FF", alpha: 1)
+        static let orangeWeb: UIColor = UIColor(withHexCode: "FCA311")
+    }
 }
 
-//struct Design {
-//    struct Color {
-//        struct Primary {
-//            // example: static let Blue = UIColor.rgba(red: 0, green: 122, blue: 255, alpha: 1)
-//
-//        }
-//        struct Secondary {
-//
-//        }
-//        struct Grayscale {
-//
-//        }
-//    }
-//    struct Image {
-//        // example: static let icoStar = UIImage(named: "ico_imageName")
-//
-//    }
-//    struct Font {
-//
-//        // example: static let Body = UIFont.systemFont(ofSize: 16, weight: .regular)
-//
-//    }
-//
-//}
-//
-//struct Content {
-//
-//    // example: static let Category = "category"
-//}
-//
-//struct API {
-//
-//    // example: static let twitterApiUrl = "https://api.twitter.com/"
-//    // example: static let DB_REF = Firestore.firestore()

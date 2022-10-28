@@ -10,7 +10,7 @@ import UIKit
 class PhotoDetailViewController: UIViewController {
     
     //MARK: Custom queue
-        let concurrentCustomQueue = DispatchQueue(label: "ConcurrentCustomQueue1", qos: .userInteractive, attributes: .concurrent)
+    let concurrentCustomQueue = DispatchQueue(label: "ConcurrentCustomQueue1", qos: .userInteractive, attributes: .concurrent)
     
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
