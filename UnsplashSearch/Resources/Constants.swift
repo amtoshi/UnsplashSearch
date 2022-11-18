@@ -26,9 +26,9 @@ struct Design{
         
         static var cancelIconSmall:UIImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: smallConfig)!
         static var likeIcon:UIImage = UIImage(systemName: "heart.circle.fill", withConfiguration: largeConfig)!
-        static var largeGridLayoutIcon:UIImage = UIImage(systemName: "rectangle.grid.2x2", withConfiguration: microConfig)!
-        static var smallGridLayoutIcon:UIImage = UIImage(systemName: "rectangle.grid.3x2", withConfiguration: microConfig)!
-        static var cardLayoutIcon:UIImage = UIImage(systemName: "rectangle.grid.1x2", withConfiguration: microConfig)!
+        static var mediumLayout:UIImage = UIImage(systemName: "rectangle.grid.2x2", withConfiguration: microConfig)!
+        static var smallLayout:UIImage = UIImage(systemName: "rectangle.grid.3x2", withConfiguration: microConfig)!
+        static var largeLayout:UIImage = UIImage(systemName: "rectangle.grid.1x2", withConfiguration: microConfig)!
 
     }
     struct Fonts{

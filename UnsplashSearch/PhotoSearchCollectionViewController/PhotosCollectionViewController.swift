@@ -19,31 +19,27 @@ class PhotosCollectionViewController: UIViewController {
     //MARK: Custom queue
     let concurrentCustomQueue = DispatchQueue(label: "ConcurrentCustomQueue", qos: .userInteractive, attributes: .concurrent)
     
-    private var currentPage:Int = 1 {
-        didSet{
-            if self.model.totalPages == 1{
-                self.previousButton.isHidden = true
-                self.previousButton.isHidden = true
-            }
-            if currentPage == self.model.totalPages{
-                self.nextButton.isHidden = true
-                self.previousButton.isHidden = false
-                
-            }
-            
-        }
-        
-    }
+   
+    var currentPageCounter:Int=0
     
     var model:Wrapper<Image> = Wrapper(){
+        
         didSet{
             
-            for result in model.results{
-                print("likes in these images\(result.likes)")
+            if self.model.results.count != 0 {
+                pagination()
+                collectionView.reloadData()
+                layoutSwitcherButton.isHidden = false
             }
-            collectionView.reloadData()
+            else {
+                layoutSwitcherButton.isHidden = true
+            }
+            
+            
         }
     }
+    
+    var layoutMode:Layout = .medium
     
    
     
@@ -53,7 +49,7 @@ class PhotosCollectionViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     
-    @usesAutoLayout var lottieAnimation:AnimationView={
+    @usesAutoLayout var lottieAnimation:AnimationView = {
         let view = AnimationView()
         view.contentMode = .scaleAspectFit
         let animation=Animation.named("ImagePreloader")
@@ -63,7 +59,7 @@ class PhotosCollectionViewController: UIViewController {
         
     }()
     
-    @usesAutoLayout var searchImageLabel:UILabel={
+    @usesAutoLayout var searchImageLabel:UILabel = {
         var view = UILabel()
         view.text = "Tap the search button and get going!"
         view.font = Design.Fonts.Body
@@ -84,7 +80,7 @@ class PhotosCollectionViewController: UIViewController {
     
     @usesAutoLayout var layoutSwitcherButton:UIButton = {
         let view = UIButton()
-        view.setImage(Design.Images.largeGridLayoutIcon, for: .normal)
+        view.setImage(Design.Images.mediumLayout, for: .normal)
         view.addTarget(self, action: #selector(layoutSwitcherClicked), for: .touchUpInside)
         view.tintColor = Design.Color.crayolaBlue
         view.addShadow()
@@ -163,7 +159,7 @@ class PhotosCollectionViewController: UIViewController {
     
     @objc func searchClicked(){
     #warning("implement animation")
-        toggleSearchBar()
+        showSearchBar()
         
     }
     
@@ -188,7 +184,7 @@ class PhotosCollectionViewController: UIViewController {
         switchLayout()
     }
     
-    //MARK: View did load
+    //MARK: viewDidLoad
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -214,18 +210,23 @@ class PhotosCollectionViewController: UIViewController {
         bottomStackView.addArrangedSubview(nextButton)
         animationStackView.addArrangedSubview(lottieAnimation)
         animationStackView.addArrangedSubview(searchImageLabel)
+        layoutSwitcherButton.isHidden = true
+        previousButton.isHidden = true
+        nextButton.isHidden = true
         imageSearchbar.delegate = self
         lottieAnimation.play()
+        
+        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.reuseIdentifier)
+        
     }
     
     
     fileprivate func layout(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageSearchbar.widthAnchor.constraint(equalToConstant: 200),
-            imageSearchbar.heightAnchor.constraint(equalToConstant: 60),
+            imageSearchbar.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             imageSearchbar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageSearchbar.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            imageSearchbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             bottomStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             bottomStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             animationStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -240,24 +241,47 @@ class PhotosCollectionViewController: UIViewController {
             lottieAnimation.heightAnchor.constraint(equalTo: animationStackView.heightAnchor, multiplier: 0.8),
             topStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 17),
             topStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17),
-            topStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-            
+            topStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0)
             
         ])
     }
     
-    fileprivate func toggleSearchBar() {
+    fileprivate func showSearchBar() {
         if self.imageSearchbar.isHidden {
             self.imageSearchbar.isHidden = false
+            self.imageSearchbar.becomeFirstResponder()
             self.searchButton.setImage(Design.Images.cancelIcon, for: .normal)
-            self.lottieAnimation.isHidden = true
+            self.animationStackView.isHidden = true
+            
         }
         else {
+            self.imageSearchbar.resignFirstResponder()
             self.imageSearchbar.isHidden = true
             self.searchButton.setImage(Design.Images.searchIcon, for: .normal)
-            self.lottieAnimation.isHidden = false
+            self.animationStackView.isHidden = false
         }
     }
+    
+    fileprivate func pagination() {
+         var numberOfPages = self.model.totalPages + 1
+         if numberOfPages == 1{
+             self.previousButton.isHidden = true
+             self.nextButton.isHidden = true
+         }
+         if numberOfPages > 1 && currentPageCounter == 1 {
+             self.previousButton.isHidden = true
+             self.nextButton.isHidden = false
+         }
+         else{
+             self.previousButton.isHidden = false
+             self.nextButton.isHidden = false
+         }
+         if currentPageCounter == numberOfPages{
+             self.nextButton.isHidden = true
+             self.previousButton.isHidden = false
+         }
+     }
+     
     
     fileprivate func loadHomepage(){
         
@@ -276,7 +300,7 @@ class PhotosCollectionViewController: UIViewController {
                     guard let imageWrapper = imageWrapper  else{
                         return
                     }
-                    self.model = imageWrapper
+                    self.model.results = imageWrapper.results
                 case .failure(let error):
                     print(error)
                     
@@ -297,7 +321,7 @@ class PhotosCollectionViewController: UIViewController {
                     guard let imageWrapper = imageWrapper  else{
                         return
                     }
-                    self.model = imageWrapper
+                    self.model.results = imageWrapper.results
                 case .failure(let error):
                     print(error)
                     
@@ -307,79 +331,22 @@ class PhotosCollectionViewController: UIViewController {
     }
     
     fileprivate func switchLayout(){
+        flowLayout.invalidateLayout()
+        flowLayout.prepare()
+        switch layoutMode{
+            case .small:
+                layoutMode = .medium
+                self.layoutSwitcherButton.setImage(Design.Images.mediumLayout, for: .normal)
+            case .medium:
+                layoutMode = .large
+                self.layoutSwitcherButton.setImage(Design.Images.largeLayout, for: .normal)
+            case .large:
+                layoutMode = .small
+                self.layoutSwitcherButton.setImage(Design.Images.smallLayout, for: .normal)
+        }
+    
         
     }
-    
-}
-//MARK: FlowLayout
-extension PhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat{
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
-        return 5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize{
-        
-        let width = view.frame.width/2
-        let height = view.frame.height/3
-        let itemSize = CGSize(width: (width-15.0), height: (height))
-        return itemSize
-    }
-    
-    
-}
-
-//MARK: PhotoCollectionViewCell
-class PhotosCollectionViewCell: UICollectionViewCell {
-    
-    static fileprivate let reuseIdentifier = "PhotosCollectionViewCell"
-    
-    @IBOutlet weak var likesLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    
-    
-    func cellDecorate() {
-        //cell
-        let radius: CGFloat = 10
-        contentView.layer.cornerRadius = radius
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.clear.cgColor
-        contentView.layer.masksToBounds = true
-        
-        //likeslabel
-        self.likesLabel.font = Design.Fonts.Body
-        self.likesLabel.textColor = .white
-        self.likesLabel.textAlignment = .right
-        self.likesLabel.layer.masksToBounds = false
-        self.likesLabel.layer.shadowRadius = 2.0
-        self.likesLabel.layer.shadowOpacity = 0.2
-        self.likesLabel.layer.shadowOffset = CGSize(width: 1, height: 2)
-        
-    }
-    
-    
-}
-
-
-extension PhotosCollectionViewController:UISearchBarDelegate{
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("search clicked")
-        guard let  searchString = searchBar.searchTextField.text
-        else { return }
-        self.searchImages(with: searchString)
-        searchBar.endEditing(true)
-    }
-    
-    
     
     fileprivate func searchImages(with keyword:String){
         
@@ -403,6 +370,24 @@ extension PhotosCollectionViewController:UISearchBarDelegate{
         }
         
     }
+}
+
+
+
+
+
+extension PhotosCollectionViewController:UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("search clicked")
+        guard let  searchString = searchBar.searchTextField.text
+        else { return }
+        self.searchImages(with: searchString)
+        searchBar.endEditing(true)
+    }
+    
+    
+    
+    
     
 }
 //MARK: CollectionView Delegate & DataSource
@@ -420,10 +405,11 @@ extension PhotosCollectionViewController: UICollectionViewDelegate, UICollection
         // #warning Incomplete implementation, return the number of items
         return model.results.count
     }
-    
+    //ios academy video- registering cell seems to be the key
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.reuseIdentifier, for: indexPath) as! PhotosCollectionViewCell
-        cell.cellDecorate()
+        let cell = PhotosCollectionViewCell()
+         collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.reuseIdentifier, for: indexPath)
+        
         
         // Configure the cell
         concurrentCustomQueue.async {
